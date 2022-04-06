@@ -2,13 +2,13 @@ import { initializeApp } from "firebase/app";
 import { getFirestore } from "@firebase/firestore";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBa_PRbwKu8WZHikSp0yC51vOObdS9d0sE",
-    authDomain: "qr-code-97099.firebaseapp.com",
-    projectId: "qr-code-97099",
-    storageBucket: "qr-code-97099.appspot.com",
-    messagingSenderId: "1052576706194",
-    appId: "1:1052576706194:web:fccb6efababaa5082cc04b",
-    measurementId: "G-SR49Q2DG1D"
+    apiKey: "AIzaSyBVkP9um_IOKu9rpxuY_afklmJ889hIg5s",
+    authDomain: "ngam-project.firebaseapp.com",
+    projectId: "ngam-project",
+    storageBucket: "ngam-project.appspot.com",
+    messagingSenderId: "980324069404",
+    appId: "1:980324069404:web:edf3e130629c430504afd9",
+    measurementId: "G-T5EWDZN7XW"
 };
 
 // Initialize Firebase

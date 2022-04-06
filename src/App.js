@@ -6,28 +6,25 @@ import {
   collection,
   getDocs,
   addDoc,
+  Timestamp
 } from "firebase/firestore";
 
 function App() {
   const [message, setMessage] = useState('');
-  const ipsCollectionRef = collection(db, "ips");
-
-  const addIp = async (ip) => {
-    await addDoc(ipsCollectionRef, { ip });
-    setMessage('Successfully registered!');
-  };
+  const [user, setUser] = useState(null);
+  const ipsCollectionRef = collection(db, "users");
 
   useEffect(() => {
     const register = async () => {
       const res = await axios.get('https://geolocation-db.com/json/');
       const data = await getDocs(ipsCollectionRef);
       const ip = res.data.IPv4;
-      const ips = data.docs.map(doc => doc.data().ip);
-
-      console.log('ip', ip);
-      console.log('ips', ips);
+      const users = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+      const ips = users.map(usr => usr.ip);
 
       if (ips.includes(ip)) {
+        const currentUser = users.find(usr => usr.ip === ip);
+        setUser(currentUser);
         setMessage('You have already registered');
         return;
       }
@@ -37,15 +34,23 @@ function App() {
         return;
       }
 
-      addIp(ip);
+      const newUser = { ip: ip, time: Timestamp.fromDate(new Date()), ticketNumber: ips.length + 1 };
+      await addDoc(ipsCollectionRef, newUser);
+      setUser(newUser);
+      setMessage('Successfully registered!');
     }
 
     register();
   }, []);
 
   return (
-    <div className="App">
-      <h1>{message}</h1>
+    <div className="app">
+      {user &&
+        <div>
+          <h1>{message}</h1>
+          <p>Your ticket number is: {user.ticketNumber}</p>
+        </div>
+      }
     </div>
   );
 }
